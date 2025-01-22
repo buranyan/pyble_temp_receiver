@@ -49,8 +49,7 @@ def save_on_exit():
         write_to_csv(timestamp, temp_celsius)
     
     # 時刻の差（相対時間）を計算してグラフを表示
-    if temperature_data:
-        # 最初のタイムスタンプを基準に相対時間を計算
+    if len(temperature_data) > 1:  # データが2点以上ある場合にのみグラフを描画
         base_time = temperature_data[0][0]
         relative_times = [ts - base_time for ts, _ in temperature_data]
         temperatures = [temp for _, temp in temperature_data]
@@ -63,21 +62,25 @@ def save_on_exit():
         plt.ylabel('Temperature (°C)')
         plt.grid(True)
         plt.legend()
-        plt.tight_layout()
-        
+
         # 最初のタイムスタンプを注釈としてグラフに表示
         first_timestamp = time.ctime(temperature_data[0][0])  # 最初のタイムスタンプ
         plt.annotate(f"Start Time: {first_timestamp}",
                      xy=(0.05, 0.95), xycoords='axes fraction',
                      fontsize=12, color='red', ha='left', va='top',
                      bbox=dict(facecolor='white', edgecolor='red', boxstyle='round,pad=0.3'))
-        
-        # グラフを表示
-        plt.show()
 
         # グラフを画像として保存
         plt.savefig(PLOT_FILE_PATH)
         print(f"Graph saved to {PLOT_FILE_PATH}")
+        
+        # レイアウトを調整
+        plt.tight_layout()
+        
+        # グラフを表示
+        plt.show()
+    else:
+        print("Not enough data for plotting.")
     
     print("Data saved successfully.")
 
@@ -145,6 +148,7 @@ if __name__ == "__main__":
         print(f"Unhandled exception: {e}")
     finally:
         save_on_exit()  # プログラム終了時にデータを保存
+
 
 
 

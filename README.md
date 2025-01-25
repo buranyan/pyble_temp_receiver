@@ -1,7 +1,3 @@
-こちらがマークダウン形式に直したREADME.mdの内容です。
-
----
-
 # BLE Temperature Sensor Data Collection and Visualization Tool
 
 This project is a tool to collect temperature data from a BLE (Bluetooth Low Energy) temperature sensor, save the data to a CSV file, and visualize the temperature data over time using a graph. If no data is received from the sensor within a specified time period, the connection will automatically be disconnected.
